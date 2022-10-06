@@ -1,6 +1,7 @@
 from pprint import pprint
 from terminaltables import AsciiTable
 import requests
+import os
 
 
 def job_search(language):
@@ -39,8 +40,9 @@ def superjob(language):
     salaries = []
     vacancies_processed = 0
     average_salary = 0
+    superjob_kay = os.environ["SJ_KEY"]
     headers = {
-        'X-Api-App-Id': 'v3.r.136990392.c4b964b6fa868b087e8147d891393feaefab0838.284a07509df56c008cd51baee797b572ec9b659a',
+        'X-Api-App-Id': superjob_kay,
     }
     payload = {
         "town": "Москва",
@@ -51,9 +53,9 @@ def superjob(language):
     for vacancy in response.json()["objects"]:
         pprint(vacancy["profession"])
         pprint(vacancy["town"]["title"])
-        pprint(predict_rub_salary_for_superJob(vacancy))
+        pprint(predict_rub_salary_for_superjob(vacancy))
     for vacancy in response.json()["objects"]:
-                predicted_salary = predict_rub_salary_for_superJob(vacancy)
+                predicted_salary = predict_rub_salary_for_superjob(vacancy)
                 if predicted_salary:
                     salaries.append(predicted_salary)
                     vacancies_processed += 1
@@ -66,7 +68,7 @@ def superjob(language):
     }
 
 
-def predict_rub_salary_for_superJob(salary):
+def predict_rub_salary_for_superjob(salary):
     if salary["currency"] == "rub":
         if salary["payment_from"] and salary["payment_to"]:
             return (salary["payment_from"] + salary["payment_to"]) / 2
