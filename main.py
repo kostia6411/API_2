@@ -1,7 +1,8 @@
-from pprint import pprint
-from terminaltables import AsciiTable
-import requests
 import os
+from pprint import pprint
+
+import requests
+from terminaltables import AsciiTable
 
 
 def job_search(language):
@@ -40,9 +41,9 @@ def superjob(language):
     salaries = []
     vacancies_processed = 0
     average_salary = 0
-    superjob_kay = os.environ["SJ_KEY"]
+    superjob_key = os.environ["SJ_KEY"]
     headers = {
-        'X-Api-App-Id': superjob_kay,
+        'X-Api-App-Id': superjob_key,
     }
     payload = {
         "town": "Москва",
@@ -103,8 +104,6 @@ if __name__ == "__main__":
     for language in programming_languages:
         language_information_hh[language]=job_search(language)
         language_information_superjob[language]=superjob(language)
-    #pprint(language_information_hh)
-    #pprint(language_information_superjob)
     finished_table_hh = AsciiTable(creating_table(language_information_hh), "API_hh")
     finished_table_superjob = AsciiTable(creating_table(language_information_superjob), "API_superjob")
     print(finished_table_hh.table)
