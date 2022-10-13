@@ -1,5 +1,4 @@
 import os
-from pprint import pprint
 
 import requests
 from terminaltables import AsciiTable
@@ -12,7 +11,6 @@ def job_search(language):
     average_salary = 0
     salaries = []
     while page < pages:
-        print(f"Загружаю страницу {page}")
         payload = {
             "area": 1,
             "text": f"програмист {language}",
@@ -51,10 +49,6 @@ def superjob(language):
     }
     response = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=payload)
     response.raise_for_status()
-    for vacancy in response.json()["objects"]:
-        pprint(vacancy["profession"])
-        pprint(vacancy["town"]["title"])
-        pprint(predict_rub_salary_for_superjob(vacancy))
     for vacancy in response.json()["objects"]:
                 predicted_salary = predict_rub_salary_for_superjob(vacancy)
                 if predicted_salary:
