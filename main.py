@@ -4,7 +4,7 @@ import requests
 from terminaltables import AsciiTable
 
 
-def job_search(language):
+def search_job_hh(language):
     page = 1
     pages = 2
     vacancies_processed = 0
@@ -35,7 +35,7 @@ def job_search(language):
     }
 
 
-def superjob(language):
+def search_job_superjob(language):
     salaries = []
     vacancies_processed = 0
     average_salary = 0
@@ -83,7 +83,7 @@ def predict_rub_salary(salary):
             return salary["to"] * 0.8
 
 
-def creating_table(language_information):
+def create_table(language_information):
     table_pyload = [["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]]
     for language, language_pyload in language_information.items():
         table_row = [language, language_pyload["vacancies_found"], language_pyload["vacancies_processed"], language_pyload["average_salary"]]
@@ -96,9 +96,9 @@ if __name__ == "__main__":
     language_information_hh = {}
     language_information_superjob = {}
     for language in programming_languages:
-        language_information_hh[language]=job_search(language)
-        language_information_superjob[language]=superjob(language)
-    finished_table_hh = AsciiTable(creating_table(language_information_hh), "API_hh")
-    finished_table_superjob = AsciiTable(creating_table(language_information_superjob), "API_superjob")
+        language_information_hh[language]=search_job_hh(language)
+        language_information_superjob[language]=search_job_superjob(language)
+    finished_table_hh = AsciiTable(create_table(language_information_hh), "API_hh")
+    finished_table_superjob = AsciiTable(create_table(language_information_superjob), "API_superjob")
     print(finished_table_hh.table)
     print(finished_table_superjob.table)
