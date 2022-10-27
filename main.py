@@ -104,12 +104,12 @@ if __name__ == "__main__":
     load_dotenv()
     superjob_key = os.environ["SJ_KEY"]
     programming_languages = ["JavaScript", "Java", "Python", "Ruby", "PHP", "C++", "CSS", "C#", "C", "Go" ]
-    language_information_hh = {}
-    language_information_superjob = {}
+    language_hh = {}
+    language_superjob = {}
     for language in programming_languages:
-        language_information_hh[language]=search_job_hh(language)
-        language_information_superjob[language]=search_job_superjob(language, superjob_key)
-    finished_table_hh = AsciiTable(create_table(language_information_hh), "API_hh")
-    finished_table_superjob = AsciiTable(create_table(language_information_superjob), "API_superjob")
+        language_hh[language]=search_job_hh(language)
+        language_superjob[language]=search_job_superjob(language, superjob_key)
+    finished_table_hh = AsciiTable(create_table(language_hh), "API_hh")
+    finished_table_superjob = AsciiTable(create_table(language_superjob), "API_superjob")
     print(finished_table_hh.table)
     print(finished_table_superjob.table)
