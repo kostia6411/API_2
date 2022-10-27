@@ -93,11 +93,11 @@ def predict_rub_salary(payment_from, payment_to, currency):
 
 
 def create_table(language_information):
-    table_pyload = [["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]]
-    for language, language_pyload in language_information.items():
-        table_row = [language, language_pyload["vacancies_found"], language_pyload["vacancies_processed"], language_pyload["average_salary"]]
-        table_pyload.append(table_row)
-    return table_pyload
+    table_payload = [["Язык программирования", "Вакансий найдено", "Вакансий обработано", "Средняя зарплата"]]
+    for language, language_payload in language_information.items():
+        table_row = [language, language_payload["vacancies_found"], language_payload["vacancies_processed"], language_payload["average_salary"]]
+        table_payload.append(table_row)
+    return table_payload
 
 
 if __name__ == "__main__":
