@@ -50,22 +50,28 @@ def search_job_superjob(language, superjob_key):
     headers = {
         'X-Api-App-Id': superjob_key,
     }
-    payload = {
-        "town": "Москва",
-        "keyword": f"програмист {language}",
-    }
-    response = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=payload)
-    response.raise_for_status()
-    response_payload = response.json()
-    for vacancy in response_payload["objects"]:
-        predicted_salary = predict_rub_salary(
-            vacancy["payment_from"],
-            vacancy["payment_to"],
-            vacancy["currency"]
-        )
-        if predicted_salary:
-            salaries.append(predicted_salary)
-            vacancies_processed += 1
+    page = 1
+    while True:
+        payload = {
+            "town": "Москва",
+            "keyword": f"програмист {language}",
+            "page": page
+        }
+        response = requests.get('https://api.superjob.ru/2.0/vacancies/', headers=headers, params=payload)
+        response.raise_for_status()
+        response_payload = response.json()
+        page += 1
+        for vacancy in response_payload["objects"]:
+            predicted_salary = predict_rub_salary(
+                vacancy["payment_from"],
+                vacancy["payment_to"],
+                vacancy["currency"]
+            )
+            if predicted_salary:
+                salaries.append(predicted_salary)
+                vacancies_processed += 1
+        if not response_payload["more"]:
+            break
     if vacancies_processed:
         average_salary = sum(salaries)/len(salaries)
     return{
